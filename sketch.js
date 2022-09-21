@@ -6,11 +6,11 @@ function setup() {
    _body = document.body;
    _html = document.documentElement;
 
-   _height = Math.max( body.scrollHeight, body.offsetHeight, 
-                       html.clientHeight, html.scrollHeight, html.offsetHeight );
+   _height = Math.max( _body.scrollHeight, _body.offsetHeight, 
+                       _html.clientHeight, _html.scrollHeight, _html.offsetHeight );
   
-   _width = Math.max( body.scrollWidth, body.offsetWidth, 
-                       html.clientWidth, html.scrollWidth, html.offsetWidth );  
+   _width = Math.max( _body.scrollWidth, _body.offsetWidth, 
+                       _html.clientWidth, _html.scrollWidth, _html.offsetWidth );  
 
   createCanvas(_width,_height);
   
