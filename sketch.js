@@ -1,6 +1,7 @@
 let values;
 let n,i = 0;
 var _height,_width,_body,_html;
+let elWidth = 5;
 
 function setup() {
    _body = document.body;
@@ -14,9 +15,9 @@ function setup() {
 
   createCanvas(_width,_height);
   
-  values = new Array(_width);
+  values = new Array(Math.round(_width/elWidth));
   for(let i = 0; i < values.length; i++){
-    values[i] = randomInteger(0,_height);
+    values[i] = randomInteger(1,_height)
   }
   n = values.length;
 }
@@ -28,7 +29,6 @@ function draw() {
 
             for (let j = 0; j < n - i - 1; j++){
                 if (values[j] > values[j + 1]) {
-                    // swap temp and arr[i]
                     let temp = values[j];
                     values[j] = values[j + 1];
                     values[j + 1] = temp;
@@ -41,10 +41,14 @@ function draw() {
     noLoop();
   }
   i++;
-    for (let i = 0; i < n - 1; i++){
-                     stroke(255, 204, 0);
+    for (let i = 0; i < n ; i++){
+                  fill(255, 204, 0);
                   
-                    line(i,_height,i,_height-values[i]);
+                  //  line(i,_height,i,_height-values[i]); 
+      rectMode(CENTER);
+    
+        rect(elWidth/2+i*elWidth,height-values[i]/2,elWidth,values[i]);
+      
     }
 }
   
