@@ -1,25 +1,38 @@
+
 const seedBtn = document.querySelector('#seedBtn'),
       pauseBtn = document.querySelector('#pauseBtn'),
-      startBtn = document.querySelector('#startBtn');
-      resumeBtn = document.querySelector('#resumeBtn');
-      let fps;
+      startBtn = document.querySelector('#startBtn'),
+      resumeBtn = document.querySelector('#resumeBtn'),
+      sortOption1 = document.querySelector('#option1'),
+      sortOption2 = document.querySelector('#option2');
+
+      let fps = document.getElementById("slider").value;
+
+//sortOption2.addEventListener('click', swapValues);
 seedBtn.addEventListener('click', seed);
 pauseBtn.addEventListener('click', pauseButton ) ;
 startBtn.addEventListener('click', start);
 resumeBtn.addEventListener('click', resume);
+let sortSelector = document.getElementById('sortSelector');
+let selectedSortOption = sortSelector.value; 
+
 document.getElementById("slider").oninput = function() {
-    frameRate(parseInt(document.getElementById("slider").value));
+  
+   fps = document.getElementById("slider").value;
+  document.getElementById("fpsNumber").innerHTML = fps;
+  
 };
 
 let values;
-let n,i = 0,j=0;
+let i = 0,j=0;
 let _height,_width,_body,_html;
 let elWidth = 20;
 let startPressed= false;
+let sortingAlgo = 1;
 
 
 function seed(){
-  i=0; j=0;
+   i=0; j=0;
   initArray(_width/elWidth);
   drawChart();
   startPressed = false;
@@ -32,11 +45,19 @@ function start(){
   startPressed = true;
   pauseBtn.disabled = false;
   startBtn.disabled = true;
-  
-    i=0;
-  console.log(document.getElementById("slider").value);
-   //frameRate(parseInt(document.getElementById("slider").value));
+      
+
+  if(selectedSortOption==1){
+    loop();
     draw();
+  }
+  
+   else if(selectedSortOption==2){
+   quickSort(0,values.length-1);
+     
+     
+  }
+  
   
 }
 
@@ -61,17 +82,71 @@ function setup() {
   
   pauseBtn.disabled = true;
   resumeBtn.disabled = true;
+  noLoop();
 }
 
 function draw() {
+ frameRate(parseInt(fps));
+  if(startPressed&&selectedSortOption==1){
+    bubbleSort();
+    
+  }
+ 
+ 
+    }
+
   
-if(startPressed){
 
+function drawChart(){
+       background('#212529');
+       for (let k = 0; k < values.length ; k++){
+    
+         
+       fill(values[k].color);
+ 
+      rectMode(CENTER);
+ 
+        rect(elWidth/2+k*elWidth,height-values[k].value/2,elWidth,values[k].value);}
+}
 
- if(i<n){
+ function swapArrElement(a,b){
+    let temp = values[a];
+            values[a] = values[b];
+            values[b] = temp;
+}
+
+function initArray(size){
+  
+   values = new Array(Math.round(size));
+  for(let i = 0; i < values.length; i++){
+    values[i] = {value: randomInteger(1,_height), color:"rgb(255, 204, 0)"}
+}}
+
+function randomInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function setSizes(){
+    _body = document.body;
+   _html = document.documentElement;
+
+   _height = Math.max( _body.scrollHeight, _body.offsetHeight, 
+                       _html.clientHeight, _html.scrollHeight, _html.offsetHeight );
+  
+   _width = Math.max( _body.scrollWidth, _body.offsetWidth, 
+                       _html.clientWidth, _html.scrollWidth, _html.offsetWidth ); 
+}
+
+async function sleep(ms){
+  return new Promise(resolve => setTimeout(resolve,ms));
+}
+
+function bubbleSort(){
+ if(i< values.length){
       
-        if (values[j] > values[j + 1]) {
-                  swapElement();  
+   
+        if (values[j].value > values[j + 1].value) {
+                  swapArrElement(j,j+1);  
                     
                 }
       j++;
@@ -85,57 +160,73 @@ if(startPressed){
  else{
     noLoop();
   }
+  values[j].color = "red";
   
  drawChart();
-}
-}
+  values[j].color = "rgb(255, 204, 0)";
   
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-function drawChart(){
-background(0);
-       for (let k = 0; k < n ; k++){
-         if(k==j){
-        fill(255, 60, 0);
-           
-         }
-         else if(k== j+1){
-           fill(0, 255, 0);
-         }
-         else{
-        fill(255, 204, 0);
-         }
-
-      rectMode(CENTER);
- 
-        rect(elWidth/2+k*elWidth,height-values[k]/2,elWidth,values[k]);
-}}
-
-function swapElement(){
-    let temp = values[j];
-                    values[j] = values[j + 1];
-                    values[j + 1] = temp;
-                  
-}
-
-function initArray(size){
-   values = new Array(Math.round(size));
-  for(let i = 0; i < values.length; i++){
-    values[i] = randomInteger(1,_height)
-  }
-  n=values.length;
-
-}
-
-function setSizes(){
-    _body = document.body;
-   _html = document.documentElement;
-
-   _height = Math.max( _body.scrollHeight, _body.offsetHeight, 
-                       _html.clientHeight, _html.scrollHeight, _html.offsetHeight );
   
-   _width = Math.max( _body.scrollWidth, _body.offsetWidth, 
-                       _html.clientWidth, _html.scrollWidth, _html.offsetWidth ); 
 }
+
+  async function quickSort(l,  r){
+   
+          if (l >= r) {
+        return;
+    }
+
+    let p =  await partition(l, r);
+
+   
+   
+  await quickSort(l, p - 1);
+  await quickSort(p + 1, r);
+
+
+      }
+
+ async function partition(l, r){
+    let pivot = values[r];
+  pivot.color = "red";
+    let i = l - 1;
+    for (let j = l; j < r; j++) {
+      
+      values[j].color = "green";
+      drawChart();
+      await sleep(150/fps);
+      
+        if (values[j].value < pivot.value) {
+            i += 1;   
+
+             swapArrElement(i,j);
+            values[j].color = "green";
+            values[i].color = "rgb(255, 204, 0)";
+
+            drawChart();
+          await sleep(150/fps);
+
+        }
+      
+      
+      values[j].color = "rgb(255, 204, 0)";
+    
+}
+   
+   pivot.color = "rgb(255, 204, 0)";
+   
+      
+     swapArrElement(i+1,r)
+drawChart();
+          await sleep(150/fps);
+    return i + 1;
+        }
+function chooseAlgo (algo){
+  sortingAlgo=algo;
+}
+
+function updateSelector() {
+				
+				 selectedSortOption =
+                   sortSelector.value;
+
+				
+			}
