@@ -1,7 +1,40 @@
+
+ option[value=1]{
+      background-color: yellow;
+    }
+
+option[value=1]:hover {
+      background-color: yellow;
+    }
 html, body {
   margin: 0;
   padding: 0;
+   background-color: black;
 }
 canvas {
   display: block;
+  background-color: black;
+  
 }
+
+#ex1Slider .slider-selection {
+	background: #BABABA;
+}
+
+.bg-dark {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--bs-dark-rgb),var(--bs-bg-opacity))!important;
+  border : none;
+  color: white !important;
+   
+}
+
+.bg-dark:disabled,.bg-dark:disabled:hover{
+  color: grey  !important;
+}
+.navbarButton:focus, .navbarButton:hover {
+    color: yellow !important;
+}
+
+
+
