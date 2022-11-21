@@ -136,7 +136,7 @@ function setSizes(){
    _width = Math.min( _body.scrollWidth, _body.offsetWidth, 
                        _html.clientWidth, _html.scrollWidth, _html.offsetWidth ); 
   
-  elWidth = _width/80;
+  elWidth = 15;
 }
 
 async function sleep(ms){
