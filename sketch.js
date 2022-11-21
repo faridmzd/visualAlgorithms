@@ -26,7 +26,7 @@ document.getElementById("slider").oninput = function() {
 let values;
 let i = 0,j=0;
 let _height,_width,_body,_html;
-let elWidth = 20;
+let elWidth;
 let startPressed= false;
 let sortingAlgo = 1;
 
@@ -76,7 +76,7 @@ function pauseButton(){
 function setup() {
   setSizes();
 
-  createCanvas(_width,_height);
+  createCanvas(_width,_height-75);
   
   seed();
   
@@ -106,7 +106,7 @@ function drawChart(){
  
       rectMode(CENTER);
  
-        rect(elWidth/2+k*elWidth,height-values[k].value/2,elWidth,values[k].value);}
+        rect(elWidth/2+k*elWidth,(_height-values[k].value/2),elWidth,values[k].value);}
 }
 
  function swapArrElement(a,b){
@@ -130,11 +130,13 @@ function setSizes(){
     _body = document.body;
    _html = document.documentElement;
 
-   _height = Math.max( _body.scrollHeight, _body.offsetHeight, 
+   _height = Math.min( _body.scrollHeight, _body.offsetHeight, 
                        _html.clientHeight, _html.scrollHeight, _html.offsetHeight );
   
-   _width = Math.max( _body.scrollWidth, _body.offsetWidth, 
+   _width = Math.min( _body.scrollWidth, _body.offsetWidth, 
                        _html.clientWidth, _html.scrollWidth, _html.offsetWidth ); 
+  
+  elWidth = _width/80;
 }
 
 async function sleep(ms){
