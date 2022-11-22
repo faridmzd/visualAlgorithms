@@ -1,1 +1,1 @@
-The Visualiser that shows  the working principle  of sorting algorithms. For now, bubble and quick sorts are avaible. New ones are coming!
+The Visualiser shows the working principle of sorting algorithms. For now, bubble and quick sorts are available. New ones are coming!
