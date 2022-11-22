@@ -76,7 +76,7 @@ function pauseButton(){
 function setup() {
   setSizes();
 
-  createCanvas(_width,_height-75);
+  createCanvas(_width,_height);
   
   seed();
   
@@ -128,15 +128,19 @@ function randomInteger(min, max) {
 
 function setSizes(){
     _body = document.body;
+  _navbar= document.getElementById("navbar");
+  
    _html = document.documentElement;
 
    _height = Math.min( _body.scrollHeight, _body.offsetHeight, 
-                       _html.clientHeight, _html.scrollHeight, _html.offsetHeight );
+                       _html.clientHeight, _html.scrollHeight, _html.offsetHeight )-_navbar.clientHeight;
   
    _width = Math.min( _body.scrollWidth, _body.offsetWidth, 
                        _html.clientWidth, _html.scrollWidth, _html.offsetWidth ); 
   
   elWidth = 15;
+  
+  
 }
 
 async function sleep(ms){
